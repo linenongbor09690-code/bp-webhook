@@ -1,12 +1,17 @@
 const express = require('express');
 const axios = require('axios');
+const crypto = require('crypto');
 const app = express();
 
 app.use(express.json({
-  verify: (req, res, buf) => {
-    req.rawBody = buf;
-  }
+  verify: (req, res, buf) => { req.rawBody = buf; }
 }));
+
+function verifySignature(body, signature) {
+  if (!signature || !LINE_SECRET) return true;
+  const hash = crypto.createHmac('SHA256', LINE_SECRET).update(body).digest('base64');
+  return `sha256=${hash}` === signature;
+}
 
 // ===== CONFIG — เปลี่ยนค่าเหล่านี้ =====
 const LINE_TOKEN = process.env.LINE_TOKEN || 'YOUR_CHANNEL_ACCESS_TOKEN';
@@ -268,6 +273,10 @@ async function getUserProfile(userId) {
 
 // ===== WEBHOOK HANDLER =====
 app.post('/webhook', async (req, res) => {
+  const sig = req.headers['x-line-signature'];
+  if (!verifySignature(req.rawBody, sig)) {
+    return res.status(400).send('Bad signature');
+  }
   res.sendStatus(200);
   const events = req.body.events || [];
 
