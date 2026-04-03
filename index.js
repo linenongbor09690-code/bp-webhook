@@ -2,7 +2,11 @@ const express = require('express');
 const axios = require('axios');
 const app = express();
 
-app.use(express.json());
+app.use(express.json({
+  verify: (req, res, buf) => {
+    req.rawBody = buf;
+  }
+}));
 
 // ===== CONFIG — เปลี่ยนค่าเหล่านี้ =====
 const LINE_TOKEN = process.env.LINE_TOKEN || 'YOUR_CHANNEL_ACCESS_TOKEN';
