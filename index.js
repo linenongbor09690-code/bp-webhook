@@ -91,11 +91,10 @@ app.post('/webhook', async function(req, res) {
           await reply(rt, [{ type:'text', text:'❌ ค่าไม่ถูกต้อง เช่น 120/80' }]);
           continue;
         }
-        var bp = classifyBP(sys, dia);
-await reply(rt, [{ 
-  type: 'text', 
-  text: bp.th + '\n\nSYS: ' + sys + '\nDIA: ' + dia + '\n\n' + bp.message 
-}]);
+       var bp = classifyBP(sys, dia);
+var profile = await getProfile(userId);
+await reply(rt, [buildCard(sys, dia, pulse, bp)]);
+await saveSheet({ userId:userId, userName:profile.displayName, sys:sys, dia:dia, pulse:pulse, level:bp.level, timestamp:new Date().toISOString() });
         await reply(rt, [buildCard(sys, dia, pulse, bp)]);
         await saveSheet({ userId:userId, userName:profile.displayName, sys:sys, dia:dia, pulse:pulse, level:bp.level, timestamp:new Date().toISOString() });
       } else if (/สวัสดี|hello|hi/i.test(text)) {
