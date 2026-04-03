@@ -9,7 +9,7 @@ const LIFF_ID = process.env.LIFF_ID || '';
 function classifyBP(sys, dia) {
   if (sys >= 180 || dia >= 110) return { level:'crisis', th:'🔴 วิกฤต! ความดันอันตราย', message:'🚨 โทร 1669 ทันที!\n• ปวดหัวรุนแรง\n• เจ็บอก\n• ตาพร่า', color:'#c0392b', bg:'#fdecea' };
   if (sys >= 140 || dia >= 90)  return { level:'stage2', th:'🟠 สงสัยป่วย ความดันสูง', message:'⚠️ นัดพบแพทย์ใน 1 สัปดาห์\n• วัดซ้ำหลังพัก 15 นาที\n• ลดอาหารเค็ม', color:'#e67e22', bg:'#fff3e0' };
-  if (sys >= 130 || dia >= 80)  return { level:'stage1', th:'🟡 กลุ่มเสี่ยง', message:'⚠️ วัดซ้ำหลังพัก 5 นาที\n• ลดเค็ม ลดไขมัน\n• ออกกำลังกาย', color:'#d4ac0d', bg:'#fffae0' };
+  if (sys >= 130 || dia >= 80)  return { level:'stage1', th:'🟡 กลุ่มเสี่ยง', message:'⚠️ วัดซ้ำหลังพัก 5 นาที\n• ลดเค็ม ลดไขมัน\n• ออกกำลังกาย', color:'#B7950B', bg:'#fffae0' };
   return { level:'normal', th:'🟢 ความดันปกติ ดีมาก!', message:'✅ ยอดเยี่ยม! ความดันปกติ\n💪 รักษาสุขภาพต่อไป:\n• ออกกำลังกายสม่ำเสมอ\n• ทานอาหารมีประโยชน์', color:'#27ae60', bg:'#e8f8ef' };
 }
 
