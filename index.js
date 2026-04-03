@@ -115,10 +115,18 @@ app.post('/webhook', async function(req, res) {
             }
           }
         };
-        await reply(rt, [card]);
+       await axios.post(
+  'https://api.line.me/v2/bot/message/push',
+  { to: userId, messages: [card] },
+  { headers: { Authorization: 'Bearer ' + LINE_TOKEN } }
+);
         await saveSheet({ userId: userId, userName: profile.displayName, sys: sys, dia: dia, pulse: pulse, level: bp.level, timestamp: new Date().toISOString() });
       } else if (/สวัสดี|hello|hi/i.test(text)) {
-        await reply(rt, [{ type: 'text', text: 'สวัสดีครับ! 👋\nพิมพ์ค่าความดัน เช่น 120/80\nหรือกดเมนูด้านล่าง' }]);
+       await axios.post(
+  'https://api.line.me/v2/bot/message/push',
+  { to: userId, messages: [{ type:'text', text:'สวัสดีครับ! 👋\nพิมพ์ค่าความดัน เช่น 120/80\nหรือกดเมนูด้านล่าง' }] },
+  { headers: { Authorization: 'Bearer ' + LINE_TOKEN } }
+);
       } else {
         await reply(rt, [{ type: 'text', text: '🩺 พิมพ์ค่าความดันได้เลยครับ\nเช่น 120/80\n\nหรือกดเมนูด้านล่าง 👇' }]);
       }
